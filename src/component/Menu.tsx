@@ -1,0 +1,168 @@
+import React, { useEffect, useState } from "react";
+import type { MenuProps } from "antd";
+import { Menu } from "antd";
+import styled from "@emotion/styled";
+import useTokenStore from "@/store/token";
+import { useLocation, useNavigate } from "react-router-dom";
+
+const homeIcon = new URL("@/assets/homeicon.png", import.meta.url).href;
+
+const MyMenu = styled(Menu)`
+  background-color: #20222a;
+  .ant-menu-item {
+    color: white;
+  }
+  .ant-menu-submenu-title {
+    color: white;
+  }
+  .ant-menu-item-selected {
+    background-color: #f1f0ff !important;
+    border-radius: 0px;
+    color: #453bc8 !important;
+    border-left: 4px solid #695dff;
+  }
+  .ant-menu-item-active {
+    border-radius: 0px;
+    color: #2773f2 !important;
+  }
+`;
+
+type MenuItem = Required<MenuProps>["items"][number];
+
+const getItem = (
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: "group"
+): any => ({
+  key,
+  icon,
+  children,
+  label,
+  type,
+});
+export interface Menu_Item {
+  label: string;
+  key: string;
+  icon?: string;
+}
+export const menuConfig = [
+  {
+    label: "首页",
+    key: "/",
+    icon: "icon1",
+  },
+  {
+    label: "PC项目",
+    key: "/pcProject",
+    icon: "icon2",
+  },
+  // {
+  //   label: "USTD订单",
+  //   key: "/ustd",
+  //   icon: "USTD",
+  // },
+  // {
+  //   label: "系统配置",
+  //   key: "/systemlayout",
+  //   icon: "system",
+  //   roles: ["管理员"],
+  // },
+  // {
+  //   label: "我是文件",
+  //   key: "/file",
+  //   icon: "setpasswd",
+  //   roles: ["普通号"],
+  //   children: [
+  //     {
+  //       label: "跳转",
+  //       key: "/4",
+  //     },
+  //     {
+  //       label: "文件",
+  //       key: "/sub3",
+  //       children: [
+  //         {
+  //           label: "子菜单",
+  //           key: "/cs",
+  //         },
+  //         {
+  //           label: "子菜单2",
+  //           key: "8",
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
+];
+
+const PackingMu = (props: { coll: boolean }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const userInfo: any = useTokenStore.getState().userInfo;
+  const [openKeys, setOpenKeys] = useState([location.pathname]);
+
+  const generateMenuItems = (itemsConfig: any, openKeys: any) => {
+    return itemsConfig
+      .filter(
+        (item: any) => !item.roles || item.roles.includes(userInfo.username)
+      )
+      .map((item: any) => {
+        const iconPath =
+          openKeys[0] === item.key ? `after${item.icon}` : item.icon;
+        const children = item.children
+          ? generateMenuItems(item.children, openKeys)
+          : undefined;
+        return getItem(
+          item.label,
+          item.key,
+          <img
+            className="w-[14px] h-[14px]"
+            src={`/MenuIcon/${iconPath}.png`}
+          />,
+          children
+        );
+      });
+  };
+
+  const menuItems = generateMenuItems(menuConfig, openKeys);
+
+  const handleMenuClick = (el: { key: string; keyPath: string[] }) => {
+    setOpenKeys(el.keyPath);
+    navigate(el.key);
+  };
+  useEffect(() => {
+    setOpenKeys([location.pathname]);
+  }, [location]);
+  return (
+    <div>
+      <div className="text-white text-md mb-2 border-b-1 border-white bg-[#20222a] font-extrabold flex justify-center h-[64px] items-center p-[30px]">
+        {!props.coll ? (
+          <img className="w-[100%]" src={homeIcon} alt="" />
+        ) : (
+          <div className="cube-box48">
+            <div className="cube48">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        )}
+      </div>
+      <MyMenu
+        mode="inline"
+        theme="light"
+        selectedKeys={openKeys}
+        openKeys={openKeys}
+        items={menuItems}
+        onClick={handleMenuClick}
+      />
+    </div>
+  );
+};
+
+export default PackingMu;
