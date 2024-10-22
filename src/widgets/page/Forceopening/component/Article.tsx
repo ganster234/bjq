@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { getQkperjct, openlist, lasttime } from "@/api/useApi";
+import { getQkperjct, openlist, lasttime, detailsMost } from "@/api/useApi";
 import { qkList } from "@/store/tableDate";
 import Modaltow from "@/component/Modaltow";
 import { Button, Select, Radio, Input, message, Tooltip } from "antd";
@@ -12,9 +12,10 @@ export default function Forceopening() {
   const articleDom: any = useRef(null); //项目详情DOM
   const [sletleTbale, setsletleTbale] = useState([]); //强开项目选项LIST
   const [afterchoice, setafterchoice] = useState([]); //选择强开项目过后
-  const [loookxm, setlookxm] = useState([]); //查看项目
+  const [loookxm, setlookxm] = useState<any>([]); //查看项目
+  const [examinexq, setexaminexq] = useState<any>([]);
   const [type, settype] = useState(1); //类型
-  const [text, settext] = useState(""); //62/A16
+  const [text, settext] = useState(""); //62/A16\
 
   useEffect(() => {
     getQkperjct({}).then((res: any) => {
@@ -57,6 +58,21 @@ export default function Forceopening() {
     //复制之后再删除元素，否则无法成功赋值
     copyInput.remove(); //删除动态创建的节点
   };
+
+  const lookxq = (val: any) => {
+    setlookxm("详情");
+    detailsMost({
+      order_id: val.order_id,
+    }).then((res: any) => {
+      // console.log(res, "res");
+      if (res.code == 0) {
+        setexaminexq(res.data);
+        if (articleDom.current && articleDom.current.popupstate) {
+          articleDom.current.popupstate(true);
+        }
+      }
+    });
+  };
   return (
     <div>
       <Button
@@ -79,20 +95,28 @@ export default function Forceopening() {
         optionsPagintion={true}
         columns={[
           {
-            title: "查看项目",
-            dataIndex: "app_name",
+            title: "操作",
             render: (record: any) => (
-              <div
-                onClick={() => {
-                  console.log(record, "record");
-                  setlookxm(record);
-                  if (articleDom.current && articleDom.current.popupstate) {
-                    articleDom.current.popupstate(true);
-                  }
-                }}
-                className=" text-[12px] text-primary-500 cursor-pointer  hover:text-[red] "
-              >
-                查看
+              <div>
+                <div
+                  onClick={() => {
+                    setlookxm(record.app_name);
+                    if (articleDom.current && articleDom.current.popupstate) {
+                      articleDom.current.popupstate(true);
+                    }
+                  }}
+                  className=" text-[12px] text-primary-500 cursor-pointer  hover:text-[red] "
+                >
+                  查看项目
+                </div>
+                <div
+                  onClick={() => {
+                    lookxq(record);
+                  }}
+                  className="mt-1 text-[12px] text-primary-500 cursor-pointer  hover:text-[red] "
+                >
+                  详情
+                </div>
               </div>
             ),
           },
@@ -141,21 +165,57 @@ export default function Forceopening() {
           isDismissable: true, //是否点击遮罩层关闭弹窗
           radius: "sm", //圆角
           placement: "center", //弹窗打开位置
-          size: "sm", //弹窗大小
+          size: "lg", //弹窗大小
           backdrop: "opaque", //遮罩背景
           hideCloseButton: false, //是否隐藏关闭按钮
-          Header: "项目详情",
+          Header: loookxm == "详情" ? "详情" : "项目详细",
           footrBut: "",
         }}
         ref={articleDom}
       >
-        <ul className=" mb-4 ">
-          {loookxm.map((item, index) => (
-            <li className=" my-2  p-2 bg-[#f9f3ff]  text-center " key={index}>
-              {item}
-            </li>
-          ))}
-        </ul>
+        <div className=" max-h-[70vh] overflow-auto ">
+          {loookxm == "详情" ? (
+            <ul className=" mb-4 ">
+              {[...examinexq].map((item: any, index: number) => (
+                <li
+                  className="my-4 p-2 bg-[#f9f3ff]  rounded-lg  shadow-lg  "
+                  key={index}
+                >
+                  <p>
+                    订单号：
+                    <span className=" text-[12px] ">{item.order_id}</span>
+                  </p>
+                  <p className=" my-1 ">账号：{item.username}</p>
+                  <p>
+                    状态：
+                    {item.status == 0
+                      ? "进行中"
+                      : item.status == 1
+                      ? "成功"
+                      : item.status == 2
+                      ? "失败"
+                      : "-"}
+                  </p>
+                  <p>
+                    类型：
+                    {item.type == 1 ? "IOS" : item.type == 2 ? "Android" : "-"}
+                  </p>
+                </li>
+              ))}
+              {examinexq.length == 0 && (
+                <li className=" my-4 text-center ">暂无数据~</li>
+              )}
+            </ul>
+          ) : (
+            <ul className=" mb-4 ">
+              {[...loookxm].map((item: any, index: number) => (
+                <li className="my-2 p-2 bg-[#f9f3ff]  text-center " key={index}>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </Modaltow>
       <Modaltow
         configuration={{

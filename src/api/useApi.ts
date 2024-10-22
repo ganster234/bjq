@@ -5,6 +5,11 @@ interface UserInfotype {
   account?: string;
 }
 
+export const detailsMost = (data: any) => {
+  //金额列表
+  return request("GET", `/open/get/open/info?order_id=${data.order_id}`);
+};
+
 export const openlist = (data: any) => {
   //获取强开列表
   return request(

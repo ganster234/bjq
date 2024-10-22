@@ -6,8 +6,9 @@
  * @Description:
  */
 export const base = import.meta.env.PROD
-  ? "https://api.bijia109.com/v1" //生产环境
-  : "http://192.168.1.59:9016/v1"; //开发环境
+  ? "http://47.96.77.255:9460/v1" //测试环境
+  : // ? "https://api.bijia109.com/v1" //生产环境
+    "http://192.168.1.59:9016/v1"; //开发环境
 
 /**
  * 请求函数
