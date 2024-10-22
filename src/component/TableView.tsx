@@ -197,16 +197,18 @@ const TableView = forwardRef<TableViewHandle, TableViewProps<any>>(
           id: index + 1,
           img: dataImg,
           name: dataName,
-        }
-      })
+        };
+      });
       setLoading(false);
+      // console.log(data, "datadata");
+
       if (code !== 0) return messageApi.error(msg);
       if (optionsPagintion) {
         setState((item: any) => ({
           ...item,
           // total: all || 0,
-          // dataList: [...list],
-          dataList,
+          // data.applet_app_id ? dataList : [...data]
+          dataList: [...data],
         }));
       } else {
         // setState((item: any) => ({ ...item, dataList: [...list] }));
@@ -276,20 +278,20 @@ const TableView = forwardRef<TableViewHandle, TableViewProps<any>>(
           rowSelection={
             rowSelectionKey
               ? {
-                type: type ? "radio" : "checkbox",
-                ...rowSelection,
-              }
+                  type: type ? "radio" : "checkbox",
+                  ...rowSelection,
+                }
               : false
             // rowSelectionKey ? rowSelection : false
           }
           pagination={
             optionsPagintion
               ? {
-                ...pagination,
-                total: state.total,
-                hideOnSinglePage: false,
-                showSizeChanger: true,
-              }
+                  ...pagination,
+                  total: state.total,
+                  hideOnSinglePage: false,
+                  showSizeChanger: true,
+                }
               : false
           }
           onChange={setCurrentPage}

@@ -1,0 +1,110 @@
+.homePage {
+  position: relative;
+}
+.homePage .swiperContainer {
+  border-radius: 15px;
+  overflow: hidden;
+}
+.homePage .swiperContainer .swiper-img {
+  height: 240px;
+}
+.homePage .content {
+  margin-top: 40px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.homePage .content .contentItem {
+  width: 49%;
+  flex-shrink: 0;
+}
+.homePage .content .contentItem .contentItemTitle {
+  font-size: 26px;
+  font-weight: bold;
+  color: #11192D;
+  margin-bottom: 24px;
+}
+.homePage .content .contentItem .contentItemList {
+  border: 1px solid #EAEDF7;
+  background: #fff;
+  padding: 12px;
+}
+.homePage .content .contentItem .contentItemList .ListItem {
+  border-radius: 8px;
+  padding: 15px 0;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+}
+.homePage .content .contentItem .contentItemList .ListItem .listImg {
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
+  margin-right: 16px;
+}
+.homePage .content .contentItem .contentItemList .ListItem .listInfo {
+  position: relative;
+}
+.homePage .content .contentItem .contentItemList .ListItem .listInfo .listInfoTitle {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+.homePage .content .contentItem .contentItemList .ListItem .listInfo .listInfoTitle .infoName {
+  font-weight: bold;
+  white-space: nowrap;
+}
+.homePage .content .contentItem .contentItemList .ListItem .listInfo .listInfoTitle .infoType {
+  border-left: 1px solid #CDD2DC;
+  border-right: 1px solid #CDD2DC;
+  padding: 0 16px;
+  margin: 0 16px;
+  height: 10px;
+  line-height: 10px;
+  white-space: nowrap;
+}
+.homePage .content .contentItem .contentItemList .ListItem .listInfo .listInfoTitle .infoaddress {
+  font-size: 12px;
+  color: #AEB3B9;
+  white-space: nowrap;
+}
+.homePage .content .contentItem .contentItemList .ListItem .listInfo .listText {
+  display: flex;
+  align-items: flex-end;
+  color: #AEB3B9;
+  line-height: 1;
+}
+.homePage .content .contentItem .contentItemList .ListItem .listInfo .listText .listTextNum {
+  color: #EE1329;
+  font-size: 15px;
+  margin-right: 16px;
+}
+.homePage .content .contentItem .contentItemList .ListItem .listInfo .listText .listTextNum .listTextUnit {
+  margin-left: 5px;
+  font-size: 12px;
+  color: #AEB3B9;
+}
+.homePage .content .contentItem .contentItemList .ListItem .listInfo .listText .listTimeStr {
+  font-size: 12px;
+}
+.homePage .content .contentItem .contentItemList1 .ListItem {
+  position: relative;
+  padding-left: 88px;
+}
+.homePage .content .contentItem .contentItemList1 .ListItem .ListItemIndex {
+  font-size: 17px;
+  color: #91929E;
+  position: absolute;
+  left: 33px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+.homePage .content .contentItem .contentItemList2 .ListItem {
+  border-bottom: 1px dashed #E4E7EC;
+}
+.homePage .content .contentItem .contentItemList2 .ListItem:last-child {
+  border-color: transparent;
+}

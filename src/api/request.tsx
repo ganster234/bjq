@@ -3,10 +3,10 @@
  * @Date: 2024-09-18 09:04:36
  * @LastEditTime: 2024-09-25 14:33:35
  * @LastEditors: yy
- * @Description: 
+ * @Description:
  */
 export const base = import.meta.env.PROD
-  ? "http://47.96.77.255:9460/v1" //生产环境
+  ? "https://api.bijia109.com/v1" //生产环境
   : "http://192.168.1.59:9016/v1"; //开发环境
 
 /**

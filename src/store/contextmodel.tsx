@@ -7,6 +7,7 @@ const lasting = {
   disclosedBallot: false, //记住账户
   curtain: "", //记住账号密码
   encipherment: "", //记住密码
+  user: {}, //用户信息
 
   Logininformation: "", //登录信息
   token: "", //登录
@@ -22,6 +23,10 @@ const usebegin = create(
       immer((set) => ({
         //数据持久化修改
         ...lasting,
+        setuser: (val: any) =>
+          set((pre: typeof lasting) => {
+            pre.user = val;
+          }),
         settoken: (val: string) =>
           set((pre: typeof lasting) => {
             pre.token = val;

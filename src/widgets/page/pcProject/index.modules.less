@@ -1,19 +1,25 @@
+
+
 .pcProjectPage {
     position: relative;
-
+    height: 80vh;
+    overflow: auto;
     .list {
         // display: grid;
         // grid-template-columns: repeat(4, 1fr);
         // gap: 32px;
+
         display: inline-block;
         margin-top: 34px;
+        display: flex;
+        flex-wrap: wrap;
 
         .listItem {
-            width: 250px;
-            display: inline-flex;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            padding: 20px;
+            width: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
             border: 1px solid #E4E7EC;
             border-radius: 4px;
             cursor: pointer;
@@ -26,18 +32,16 @@
                 border-color: transparent;
             }
 
-
             .listImg {
-                width: 60px;
-                height: 60px;
+                width: 55px;
+                height: 55px;
                 border-radius: 5px;
                 margin-right: 16px;
             }
 
             .listItemInfo {
                 position: relative;
-                width: 60%;
-                max-width: 200px;
+                max-width: 100px;
                 display: inline-block;
 
                 .listItemTitle {
@@ -76,13 +80,30 @@
     align-items: center;
 
     .words {
-        margin-left: 30px;
         display: flex;
         align-items: center;
         cursor: pointer;
 
         span {
             margin-left: 8px;
+        }
+    }
+}
+
+@media (max-width: 710px) {
+    .pcProjectPage{
+        height: 65vh !important;
+    }
+    .listItem {
+        width: 165px !important;
+
+        .listImg {
+            width: 45px !important;
+            height: 45px !important;
+            margin-right: 6px !important;
+        }
+        .listItemTitle{
+            font-size: 13px !important;
         }
     }
 }

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
+import route from "../userouter";
 import styled from "@emotion/styled";
 import useTokenStore from "@/store/token";
 import { useLocation, useNavigate } from "react-router-dom";
-
-const homeIcon = new URL("@/assets/homeicon.png", import.meta.url).href;
 
 const MyMenu = styled(Menu)`
   background-color: #20222a;
@@ -54,54 +53,52 @@ export const menuConfig = [
     icon: "icon1",
   },
   {
-    label: "PC项目",
-    key: "/pcProject",
-    icon: "icon2",
+    label: "Q项目",
+    icon: "setpasswd",
+    children: [
+      {
+        label: "网页项目",
+        icon: "",
+        key: "/webpage",
+      },
+      {
+        label: "APP项目",
+        icon: "",
+        key: "/qapppage",
+      },
+    ],
   },
-  // {
-  //   label: "USTD订单",
-  //   key: "/ustd",
-  //   icon: "USTD",
-  // },
-  // {
-  //   label: "系统配置",
-  //   key: "/systemlayout",
-  //   icon: "system",
-  //   roles: ["管理员"],
-  // },
-  // {
-  //   label: "我是文件",
-  //   key: "/file",
-  //   icon: "setpasswd",
-  //   roles: ["普通号"],
-  //   children: [
-  //     {
-  //       label: "跳转",
-  //       key: "/4",
-  //     },
-  //     {
-  //       label: "文件",
-  //       key: "/sub3",
-  //       children: [
-  //         {
-  //           label: "子菜单",
-  //           key: "/cs",
-  //         },
-  //         {
-  //           label: "子菜单2",
-  //           key: "8",
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
+  {
+    label: "WX项目",
+    icon: "setpasswd",
+    children: [
+      {
+        label: "网页项目",
+        icon: "",
+        key: "/wwebpage",
+      },
+      {
+        label: "APP项目",
+        icon: "",
+        key: "/wqapppage",
+      },
+      {
+        label: "小程序项目",
+        icon: "",
+        key: "/smallprogram",
+      },
+      {
+        label: "强开列表",
+        icon: "",
+        key: "/forceopening",
+      },
+    ],
+  },
 ];
-
 const PackingMu = (props: { coll: boolean }) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const userInfo: any = useTokenStore.getState().userInfo;
-  const [openKeys, setOpenKeys] = useState([location.pathname]);
+  const [openKeys, setOpenKeys] = useState([window.location.pathname]);
 
   const generateMenuItems = (itemsConfig: any, openKeys: any) => {
     return itemsConfig
@@ -119,7 +116,7 @@ const PackingMu = (props: { coll: boolean }) => {
           item.key,
           <img
             className="w-[14px] h-[14px]"
-            src={`/MenuIcon/${iconPath}.png`}
+            src={item.icon ? `/MenuIcon/${iconPath}.png` : ""}
           />,
           children
         );
@@ -132,14 +129,12 @@ const PackingMu = (props: { coll: boolean }) => {
     setOpenKeys(el.keyPath);
     navigate(el.key);
   };
-  useEffect(() => {
-    setOpenKeys([location.pathname]);
-  }, [location]);
+
   return (
     <div>
-      <div className="text-white text-md mb-2 border-b-1 border-white bg-[#20222a] font-extrabold flex justify-center h-[64px] items-center p-[30px]">
+      <div className="text-white text-md mb-2 border-b-1 border-white bg-[#20222a] font-extrabold flex justify-center h-[64px] items-center">
         {!props.coll ? (
-          <img className="w-[100%]" src={homeIcon} alt="" />
+          <img className="w-[76%]" src="/homeicon.png" alt="" />
         ) : (
           <div className="cube-box48">
             <div className="cube48">
@@ -156,8 +151,8 @@ const PackingMu = (props: { coll: boolean }) => {
       <MyMenu
         mode="inline"
         theme="light"
-        selectedKeys={openKeys}
-        openKeys={openKeys}
+        defaultSelectedKeys={openKeys}
+        defaultOpenKeys={openKeys}
         items={menuItems}
         onClick={handleMenuClick}
       />

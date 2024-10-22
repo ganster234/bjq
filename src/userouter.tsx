@@ -3,12 +3,19 @@ import { lazy, Suspense } from "react";
 // import useTokenStore from "./store/token";
 
 // 动态导入组件
+const Login = lazy(() => import("./widgets/LoginEnrollthree.tsx"));
 const Personage = lazy(() => import("./widgets/page/Personage"));
 const PcProject = lazy(() => import("./widgets/page/pcProject/index"));
-const PcProjectDetails = lazy(() => import("./widgets/page/pcProject/details"));
-// const Figure = lazy(() => import("./widgets/page/Figure")); //封装表格试列
-// const USTD = lazy(() => import("./widgets/page/USTD.tsx"));
-// const Systemlayout = lazy(() => import("./widgets/page/Systemlayout.tsx"));
+const PcProjectDetails = lazy(() => import("./widgets/page/pcProject/details.tsx"));
+const QWebpage = lazy(() => import("./widgets/page/Qproject/Webpage.tsx"));
+const QAPPpage = lazy(() => import("./widgets/page/Qproject/APPpage.tsx"));
+
+const WWebpage = lazy(() => import("./widgets/page/Wproject/Webpage.tsx"));
+const WAPPpage = lazy(() => import("./widgets/page/Wproject/APPpage.tsx"));
+const Forceopening = lazy(() => import("./widgets/page/Forceopening"));
+const Smallprogram = lazy(
+  () => import("./widgets/page/Wproject/Smallprogram.tsx")
+);
 const NotFound = lazy(() => import("./widgets/page/NotFound.tsx")); // 404 页面
 
 // 获取用户信息
@@ -21,6 +28,22 @@ const routeConfig = [
     element: (
       <Suspense fallback={<div>⌛加载中...</div>}>
         <Personage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/login",
+    element: (
+      <Suspense fallback={<div>⌛加载中...</div>}>
+        <Login />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/forceopening",
+    element: (
+      <Suspense fallback={<div>⌛加载中...</div>}>
+        <Forceopening />
       </Suspense>
     ),
   },
@@ -40,6 +63,50 @@ const routeConfig = [
       </Suspense>
     ),
   },
+
+  {
+    path: "/smallprogram",
+    element: (
+      <Suspense fallback={<div>⌛加载中...</div>}>
+        <Smallprogram />
+      </Suspense>
+    ),
+  },
+
+  {
+    path: "/webpage",
+    element: (
+      <Suspense fallback={<div>⌛加载中...</div>}>
+        <QWebpage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/qapppage",
+    element: (
+      <Suspense fallback={<div>⌛加载中...</div>}>
+        <QAPPpage />
+      </Suspense>
+    ),
+  },
+
+  {
+    path: "/wwebpage",
+    element: (
+      <Suspense fallback={<div>⌛加载中...</div>}>
+        <WWebpage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/wqapppage",
+    element: (
+      <Suspense fallback={<div>⌛加载中...</div>}>
+        <WAPPpage />
+      </Suspense>
+    ),
+  },
+
   // {
   //   path: "/ustd",
   //   element: (
@@ -71,7 +138,7 @@ const routeConfig = [
 const filteredRoutes = routeConfig.filter((route) => {
   // if (!route.roles) return true;
   // return route.roles.includes(userInfo.username);
-  return route
+  return route;
 });
 
 // 创建路由

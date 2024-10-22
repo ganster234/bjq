@@ -1,0 +1,91 @@
+.pcProjectPage {
+  position: relative;
+  height: 80vh;
+  overflow: auto;
+}
+.pcProjectPage .list {
+  display: inline-block;
+  margin-top: 34px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.pcProjectPage .list .listItem {
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #E4E7EC;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+.pcProjectPage .list .listItem:hover {
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.1);
+  border-color: transparent;
+}
+.pcProjectPage .list .listItem .listImg {
+  width: 55px;
+  height: 55px;
+  border-radius: 5px;
+  margin-right: 16px;
+}
+.pcProjectPage .list .listItem .listItemInfo {
+  position: relative;
+  max-width: 100px;
+  display: inline-block;
+}
+.pcProjectPage .list .listItem .listItemInfo .listItemTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #11192D;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+.pcProjectPage .list .listItem .listItemInfo .listTextNum {
+  white-space: nowrap;
+  color: #EE1329;
+  font-size: 15px;
+  margin-right: 16px;
+}
+.pcProjectPage .list .listItem .listItemInfo .listTextNum .listTextUnit {
+  margin-left: 5px;
+  font-size: 12px;
+  color: #AEB3B9;
+}
+.publicTitle {
+  height: 60px;
+  line-height: 60px;
+  width: 100%;
+  font-size: 14px;
+  border-bottom: 1px solid #e3e6ed;
+  display: flex;
+  align-items: center;
+}
+.publicTitle .words {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.publicTitle .words span {
+  margin-left: 8px;
+}
+@media (max-width: 710px) {
+  .pcProjectPage {
+    height: 65vh !important;
+  }
+  .listItem {
+    width: 165px !important;
+  }
+  .listItem .listImg {
+    width: 45px !important;
+    height: 45px !important;
+    margin-right: 6px !important;
+  }
+  .listItem .listItemTitle {
+    font-size: 13px !important;
+  }
+}

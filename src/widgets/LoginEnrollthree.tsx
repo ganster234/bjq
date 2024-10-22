@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+
 import styled from "@emotion/styled";
 import { produce } from "immer";
 import { message } from "antd";
@@ -8,12 +9,15 @@ import { Input } from "@nextui-org/react";
 import { Button, Checkbox } from "@nextui-org/react";
 import useTokenStore from "@/store/token";
 import "./loginEnroll.css";
+import { LeftOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 const Element = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background-size: cover;
+
   .codep {
     margin-top: 20px;
     p {
@@ -38,6 +42,7 @@ const Element = styled.div`
 `;
 export default function LoginRegistration() {
   //3号登录注册（背景小圆点）
+  const navigate = useNavigate();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth); //监听页面宽度
   const changeToken = useTokenStore((state) => state.changeToken); //调用store
   const changeUser = useTokenStore((state) => state.changeUserInfo); //调用
@@ -92,33 +97,28 @@ export default function LoginRegistration() {
           content: "请输入完整信息",
         });
       } else {
-        changeUser({
-          username: "普通号",
-        });
-        changeToken("dc6e13b90b4bd1515923e1171100ea25");
-        location.reload();
         if (takestore.disclosedBallot) {
           //记住密码
           takestore.setcurtain(data.username);
           takestore.setencipherment(data.password);
         }
-        // Login({
-        //   username: data.username,
-        //   password: data.password,
-        // }).then((res: any) => {
-        //   // console.log(res);
-        //   if (res.code == 200) {
-        //     takestore.setuser(res.data);
-        //     changeToken(res.data.data);
-        //     message.success("登录成功");
-        //     location.reload();
-        //     if (takestore.disclosedBallot) {
-        //       //记住密码
-        //       takestore.setcurtain(data.username);
-        //       takestore.setencipherment(data.password);
-        //     }
-        //   }
-        // });
+        Login({
+          username: data.username,
+          password: data.password,
+        }).then((res: any) => {
+          console.log(res);
+          if (res.code == 0) {
+            takestore.setuser(res.data.userinfo);
+            changeToken(res.data.userinfo.token);
+            message.success("登录成功");
+            navigate("/forceopening");
+            if (takestore.disclosedBallot) {
+              //记住密码
+              takestore.setcurtain(data.username);
+              takestore.setencipherment(data.password);
+            }
+          }
+        });
       }
     } else {
       const regex = /^(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
@@ -138,9 +138,10 @@ export default function LoginRegistration() {
         register({
           username: data.username,
           password: data.password,
+          password_confirm: data.password,
         }).then((res: any) => {
-          // console.log(res);
-          if (res.code == 200) {
+          console.log(res);
+          if (res.code == 0) {
             message.success("注册成功");
             switchover("登录");
           }
@@ -196,6 +197,16 @@ export default function LoginRegistration() {
               : "w-[470px] p-[30px] baidushowd")
           }
         >
+          <div
+            onClick={() => {
+              navigate("/");
+              location.reload();
+            }}
+            className="cursor-pointer text-[16px]"
+          >
+            <LeftOutlined />
+            返回
+          </div>
           <h2 className="mb-[44px] text-[22px] font-bold flex justify-center text-[#092F65] ">
             {data.type == "登录" ? "账 号 登 录" : "创 建 账 号"}
           </h2>

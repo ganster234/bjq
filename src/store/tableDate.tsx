@@ -3,8 +3,19 @@
  * @Date: 2024-09-18 09:04:36
  * @LastEditTime: 2024-09-26 13:31:31
  * @LastEditors: yy
- * @Description: 
+ * @Description:
  */
+export const qkList = [
+  {
+    title: "账号",
+    dataIndex: "username",
+  },
+  {
+    title: "创建时间",
+    dataIndex: "create_time",
+    render: (record: string) => <div className=" text-[11px] ">{record}</div>,
+  },
+];
 export const payColumns = [
   {
     title: "账号",
@@ -38,8 +49,28 @@ export const menus_List = [
     key: "/",
   },
   {
-    label: "PC项目",
-    key: "/pcProject",
+    label: "Q-网页项目",
+    key: "/webpage",
+  },
+  {
+    label: "Q-APP项目",
+    key: "/qapppage",
+  },
+  {
+    label: "WX-网页项目",
+    key: "/wwebpage",
+  },
+  {
+    label: "WX-APP项目",
+    key: "/wqapppage",
+  },
+  {
+    label: "WX-小程序项目",
+    key: "/smallprogram",
+  },
+  {
+    label: "强开列表",
+    key: "/forceopening",
   },
   // {
   //   key: "/setpassword",

@@ -3,27 +3,31 @@
  * @Date: 2024-09-14 13:09:57
  * @LastEditTime: 2024-09-26 13:34:47
  * @LastEditors: yy
- * @Description: 
+ * @Description:
  */
-import { useState, } from "react";
+import { useState } from "react";
 import { Route, useNavigate, useLocation, Routes } from "react-router-dom";
 import { Layout, theme, Popover } from "antd";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
+import useTokenStore from "@/store/token";
 import { Button } from "@nextui-org/react";
 import { menus_List } from "@/store/tableDate";
 const { Header, Sider, Content } = Layout;
 import route from "../userouter";
 import PackingMu from "@/component/Menu";
 import "./Afterlogging.modules.less";
+import { usebegin } from "@/store/contextmodel";
 import {
   // goFullScreen, exitFullScreen,
-  useWindowWidth
+  useWindowWidth,
 } from "@/store/utile";
 
 const Afterlogging = () => {
+  const takestore: any = usebegin();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -98,39 +102,45 @@ const Afterlogging = () => {
                 </ul>
               }
             >
-              <Button className=" bg-transparent  text-[20px]" style={{
-                border: "none",
-              }}>
+              <Button
+                className=" bg-transparent  text-[20px]"
+                style={{
+                  border: "none",
+                }}
+              >
                 <MenuFoldOutlined />
               </Button>
             </Popover>
           )}
-
-          <div className="w-[50%] mr-[34px] flex items-center justify-end">
-            <div className="asideTips">
-              本网站为服务型网站，只提供项目价格对比，不售卖任何商品。购买时会跳转至其原本的网站。
+          {useTokenStore.getState().token && (
+            <div className="w-[50%] mr-[34px] flex items-center justify-end">
+              <p className=" mr-4 ">你好，{takestore.user.username}</p>
+              <p
+                onClick={() => {
+                  //退出登录
+                  navigate("/");
+                  localStorage.clear();
+                  localStorage.removeItem("token");
+                  window.location.reload();
+                }}
+                className="logOff cursor-pointer hover:text-[red]"
+              >
+                <LogoutOutlined />
+                &nbsp; 退出
+              </p>
             </div>
-            {/* <p
-              onClick={() => {
-                //退出登录
-                navigate("/");
-                // localStorage.clear();
-                localStorage.removeItem("token");
-                location.reload();
-              }}
-              className="logOff cursor-pointer hover:text-[red]"
-            >
-              <LogoutOutlined /> 退出
-            </p> */}
-          </div>
+          )}
         </Header>
+        <div className="asideTips">
+          本网站为服务型网站，只提供项目价格对比，不售卖任何商品。购买时会跳转至其原本的网站。
+        </div>
         <Content
           style={{
             margin: windowWidth > 600 ? "24px 16px" : "8px",
-            padding: isHomePage ? '' : windowWidth > 600 ? 24 : 8,
-            height: 'calc(100vh - 112px)',
-            overflowY: 'auto',
-            background: isHomePage ? '' : colorBgContainer,
+            padding: isHomePage ? "" : windowWidth > 600 ? 24 : 8,
+            height: "calc(100vh - 112px)",
+            overflowY: "auto",
+            background: isHomePage ? "" : colorBgContainer,
           }}
         >
           {/* <RouterProvider router={route} /> */}

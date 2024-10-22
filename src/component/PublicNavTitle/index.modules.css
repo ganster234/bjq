@@ -6,12 +6,12 @@
   border-bottom: 1px solid #e3e6ed;
   display: flex;
   align-items: center;
-  .words {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    span {
-      margin-left: 8px;
-    }
-  }
+}
+.publicTitle .words {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.publicTitle .words span {
+  margin-left: 8px;
 }
