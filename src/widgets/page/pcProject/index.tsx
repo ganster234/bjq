@@ -1,34 +1,30 @@
-// import CryptoJS from "crypto-js";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Input, Space, Button, message, Spin } from "antd";
 import { SearchOutlined, SyncOutlined } from "@ant-design/icons";
 import { debounce, throttle } from "@/store/utile";
 import { decryptData } from "@/store/utile";
 import "./index.modules.less";
-
 import { ProjectList } from "@/api/useApi";
 import { useNavigate } from "react-router-dom";
-// PC项目
 
+// PC项目
 export default function PcProject({ props }: any) {
   const boxRef = useRef(null); // 引用滚动容器
   const navigate = useNavigate();
 
   // 检索值
-  const [loding, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(1); // 当前请求页数
+  const [searchTrigger, setSearchTrigger] = useState(0); // 搜索触发器
   // 列表数据
   const [listData, setListData] = useState<any>([]);
 
   const getData = (name = searchValue, props: any) => {
     setLoading(true);
 
-    const isSearch = !!name;
-    const currentPage = isSearch ? 1 : page;
-
     ProjectList({
-      page: currentPage,
+      page: page,
       page_size: 100,
       name,
       ...props,
@@ -42,29 +38,19 @@ export default function PcProject({ props }: any) {
         }
 
         const decryptedData = decryptData(res?.data);
-        console.log(decryptedData, "decryptedData");
 
         if (!Array.isArray(decryptedData)) {
           message.error("数据格式错误");
           return;
         }
 
-        if (isSearch) {
-          // 将新数据追加到列表中
-          setListData((prevData: any) => [...prevData, ...decryptedData]);
-
-          // 仅当 page 不为 1 时才更新 page
-          if (page !== 1) {
-            setPage(1);
-          }
-        } else {
-          if (decryptedData.length === 0) {
-            message.success("数据加载完成");
-            return;
-          }
-          // 继续分页加载
-          setListData((prevData: any) => [...prevData, ...decryptedData]);
+        if (decryptedData.length === 0) {
+          message.success("数据加载完成");
+          return;
         }
+
+        // 更新列表数据
+        setListData((prevData: any) => [...prevData, ...decryptedData]);
       })
       .catch((error: any) => {
         setLoading(false);
@@ -72,10 +58,21 @@ export default function PcProject({ props }: any) {
         console.error(error);
       });
   };
+
   useEffect(() => {
-    console.log(props);
-    getData(searchValue, props);
+    if (searchTrigger === 0) {
+      // 非搜索操作，监听 page 变化
+      getData(searchValue, props);
+    }
   }, [page]);
+
+  useEffect(() => {
+    if (searchTrigger > 0) {
+      // 搜索操作，监听 searchTrigger 变化
+      getData(searchValue, props);
+    }
+  }, [searchTrigger]);
+
   const handleScroll = () => {
     const box: any = boxRef.current;
     if (box.scrollHeight - box.scrollTop - box.clientHeight < 300) {
@@ -83,7 +80,30 @@ export default function PcProject({ props }: any) {
     }
   };
 
-  //////////////////////////////////////////
+  const handleSearch = () => {
+    if (searchValue) {
+      setListData([]);
+      setPage(1);
+      setSearchTrigger((prev) => prev + 1); // 触发搜索
+    } else {
+      message.error("请输入项目名称");
+    }
+  };
+
+  const handleReset = () => {
+    setListData([]);
+    setSearchValue("");
+
+    if (page !== 1) {
+      // 只有在 page 不等于 1 时，才更新 page 和触发器
+      setPage(1);
+    } else {
+      getData("", props);
+    }
+
+    setSearchTrigger(0); // 重置搜索触发器
+  };
+
   return (
     <>
       <div className="custom-search-head mb-4">
@@ -105,9 +125,7 @@ export default function PcProject({ props }: any) {
             <Button
               type="primary"
               icon={<SearchOutlined />}
-              onClick={() => {
-                setListData([]), getData(searchValue, props);
-              }}
+              onClick={handleSearch}
             >
               查询
             </Button>
@@ -115,8 +133,7 @@ export default function PcProject({ props }: any) {
               type="dashed"
               icon={<SyncOutlined />}
               onClick={() => {
-                setSearchValue("");
-                getData("", props);
+                handleReset();
               }}
             >
               重置
@@ -131,7 +148,7 @@ export default function PcProject({ props }: any) {
         ref={boxRef}
         className="pcProjectPage"
       >
-        <Spin spinning={loding}>
+        <Spin spinning={loading}>
           <div className="list">
             {listData.map((item: any, index: number) => {
               return (
