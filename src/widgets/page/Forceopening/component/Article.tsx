@@ -4,6 +4,7 @@ import { qkList } from "@/store/tableDate";
 import Modaltow from "@/component/Modaltow";
 import { Button, Select, Radio, Input, message, Tooltip } from "antd";
 import TableView from "@/component/TableView";
+import { useWindowWidth } from "@/store/utile";
 export default function Forceopening() {
   // 强开项目
   const { TextArea } = Input;
@@ -16,7 +17,7 @@ export default function Forceopening() {
   const [examinexq, setexaminexq] = useState<any>([]);
   const [type, settype] = useState(1); //类型
   const [text, settext] = useState(""); //62/A16\
-
+  const Domwith = useWindowWidth();
   useEffect(() => {
     getQkperjct({}).then((res: any) => {
       //查询选择强开项目
@@ -146,16 +147,22 @@ export default function Forceopening() {
           {
             title: "订单号",
             dataIndex: "order_id",
-            render: (record: string) => (
-              <Tooltip placement="bottom" title={record}>
-                <div
-                  className=" text-[12px] text-primary-500 cursor-pointer  hover:text-[red] "
-                  onClick={() => copy(record)}
-                >
-                  复制
-                </div>
-              </Tooltip>
-            ),
+            render: (record: string) =>
+              // {
+              //   Domwith > 100 ?
+              // }
+              Domwith <= 900 ? (
+                <Tooltip placement="bottom" title={record}>
+                  <div
+                    className=" text-[12px] text-primary-500 cursor-pointer  hover:text-[red] "
+                    onClick={() => copy(record)}
+                  >
+                    复制
+                  </div>
+                </Tooltip>
+              ) : (
+                <div>{record}</div>
+              ),
           },
           ...qkList,
         ]}
