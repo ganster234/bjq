@@ -1,16 +1,9 @@
-/*
- * @Author: yy
- * @Date: 2024-09-14 15:36:50
- * @LastEditTime: 2024-09-30 15:03:19
- * @LastEditors: yy
- * @Description:
- */
 // import CryptoJS from "crypto-js";
 import { useState, useEffect, useRef } from "react";
 import { Input, Space, Button, message, Spin } from "antd";
 import { SearchOutlined, SyncOutlined } from "@ant-design/icons";
 import { debounce, throttle } from "@/store/utile";
-// import { emunStatus } from "@/store/global";
+import { decryptData } from "@/store/utile";
 import "./index.modules.less";
 
 import { ProjectList } from "@/api/useApi";
@@ -22,67 +15,66 @@ export default function PcProject({ props }: any) {
   const navigate = useNavigate();
 
   // 检索值
-  const [loding, setloding] = useState(true);
+  const [loding, setLoading] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(1); // 当前请求页数
   // 列表数据
   const [listData, setListData] = useState<any>([]);
-  // function decodeBase64(base64Str: string) {
-  //   const binaryString = atob(base64Str);
-  //   const len = binaryString.length;
-  //   const bytes = new Uint8Array(len);
-
-  //   for (let i = 0; i < len; i++) {
-  //     bytes[i] = binaryString.charCodeAt(i);
-  //   }
-
-  //   return new TextDecoder().decode(bytes);
-  // }
 
   const getData = (name = searchValue, props: any) => {
-    setloding(true);
+    setLoading(true);
+
+    const isSearch = !!name;
+    const currentPage = isSearch ? 1 : page;
+
     ProjectList({
-      page: searchValue ? 1 : page,
+      page: currentPage,
       page_size: 100,
       name,
       ...props,
-    }).then((res: any) => {
-      setloding(false);
-      if (res?.code !== 0) {
-        message.error(res?.msg || "请求失败");
-      }
-      // console.log(atob(res?.data),'解64');
-      // const newData = decodeBase64(res?.data);
-      // console.log("解BEse64", newData);
+    })
+      .then((res: any) => {
+        setLoading(false);
 
-      // const decryptedBytes = CryptoJS.AES.decrypt(
-      //   newData,
-      //   CryptoJS.enc.Utf8.parse("glt6h61ta7kisow7"),
-      //   {
-      //     iv: CryptoJS.enc.Utf8.parse("4hrivgw5s342f9b2"),
-      //     mode: CryptoJS.mode.CBC, // 根据实际加密模式选择
-      //     padding: CryptoJS.pad.Pkcs7, // 根据实际加密填充选择
-      //   }
-      // );
-      // const jsonString = JSON.stringify(decryptedBytes);
-      // const base64EncodedData = btoa(unescape(encodeURIComponent(jsonString)));
-      // console.log("Base64 Encoded Data:", base64EncodedData);
-      // const decodedData = atob(base64EncodedData);
-      // console.log(decodedData);
-      console.log(searchValue, "searchValue");
-      if (searchValue) {
-        setListData([...res?.data]);
-      } else {
-        if (res?.data.length == 0) {
-          message.success('数据加载完成')
+        if (res?.code !== 0) {
+          message.error(res?.msg || "请求失败");
+          return;
         }
-        setListData((prevData: any) => [...prevData, ...res?.data]);
-      }
-    });
+
+        const decryptedData = decryptData(res?.data);
+        console.log(decryptedData, "decryptedData");
+
+        if (!Array.isArray(decryptedData)) {
+          message.error("数据格式错误");
+          return;
+        }
+
+        if (isSearch) {
+          // 将新数据追加到列表中
+          setListData((prevData: any) => [...prevData, ...decryptedData]);
+
+          // 仅当 page 不为 1 时才更新 page
+          if (page !== 1) {
+            setPage(1);
+          }
+        } else {
+          if (decryptedData.length === 0) {
+            message.success("数据加载完成");
+            return;
+          }
+          // 继续分页加载
+          setListData((prevData: any) => [...prevData, ...decryptedData]);
+        }
+      })
+      .catch((error: any) => {
+        setLoading(false);
+        message.error("网络请求失败");
+        console.error(error);
+      });
   };
   useEffect(() => {
     console.log(props);
-    getData("", props);
+    getData(searchValue, props);
   }, [page]);
   const handleScroll = () => {
     const box: any = boxRef.current;
@@ -114,7 +106,7 @@ export default function PcProject({ props }: any) {
               type="primary"
               icon={<SearchOutlined />}
               onClick={() => {
-                getData(searchValue, props);
+                setListData([]), getData(searchValue, props);
               }}
             >
               查询

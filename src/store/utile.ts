@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import CryptoJS from "crypto-js";
 
 type DebounceFn = (...args: any[]) => void;
 // 防抖
@@ -71,7 +72,6 @@ export function useWindowWidth() {
   return width;
 }
 
-
 //登录背景
 export const loginBg = () => {
   const elems: NodeListOf<HTMLElement> =
@@ -132,4 +132,36 @@ export const loginBg = () => {
       }, 500);
     });
   });
+};
+
+//解密算法
+export const decryptData = (encryptedData: any[]) => {
+  // 密钥和 IV，需要与后端保持一致
+  const key = CryptoJS.enc.Utf8.parse("glt6h61ta7kisow7");
+  const iv = CryptoJS.enc.Utf8.parse("4hrivgw5s342f9b2");
+
+  // 步骤 1：Base64 解码后端返回的加密数据
+  const encryptedHexStr = CryptoJS.enc.Base64.parse(encryptedData);
+
+  // 步骤 2：使用 AES-128-CBC 算法解密
+  const decryptedData = CryptoJS.AES.decrypt(
+    { ciphertext: encryptedHexStr },
+    key,
+    {
+      iv: iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7,
+    }
+  );
+
+  // 将解密得到的 WordArray 转换为 Utf8 字符串
+  const decryptedStr = decryptedData.toString(CryptoJS.enc.Utf8);
+
+  // 步骤 3：Base64 解码解密得到的字符串
+  const jsonStr = atob(decryptedStr);
+
+  // 步骤 4：解析 JSON 字符串
+  const result = JSON.parse(jsonStr);
+
+  return result;
 };

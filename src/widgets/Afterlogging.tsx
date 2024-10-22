@@ -136,7 +136,7 @@ const Afterlogging = () => {
         </div>
         <Content
           style={{
-            margin: windowWidth > 600 ? "24px 16px" : "8px",
+            // margin: windowWidth > 600 ? "24px 16px" : "8px",
             padding: isHomePage ? "" : windowWidth > 600 ? 24 : 8,
             height: "calc(100vh - 112px)",
             overflowY: "auto",
