@@ -38,7 +38,7 @@ export default function PcProject({ props }: any) {
 
         const decryptedData = decryptData(res?.data);
 
-        if (!Array.isArray([])) {
+        if (!Array.isArray(decryptedData)) {
           message.error("数据格式错误");
           return;
         }
@@ -82,6 +82,7 @@ export default function PcProject({ props }: any) {
   const handleSearch = () => {
     if (searchValue) {
       setListData([]);
+
       setPage(1);
       setSearchTrigger((prev) => prev + 1); // 触发搜索
     } else {
@@ -90,17 +91,19 @@ export default function PcProject({ props }: any) {
   };
 
   const handleReset = () => {
-    setListData([]);
-    setSearchValue("");
+    // setListData([]);
+    // console.log("执行handleReset");
+    // console.log(listData, "listData");
+    // setSearchValue("");
+    // if (page !== 1) {
+    //   // 只有在 page 不等于 1 时，才更新 page 和触发器
+    //   setPage(1);
+    // } else {
+    //   getData("", props);
+    // }
+    // setSearchTrigger(0); // 重置搜索触发器
 
-    if (page !== 1) {
-      // 只有在 page 不等于 1 时，才更新 page 和触发器
-      setPage(1);
-    } else {
-      getData("", props);
-    }
-
-    setSearchTrigger(0); // 重置搜索触发器
+    window.location.reload(); // 刷新整个页面
   };
 
   return (
