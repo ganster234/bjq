@@ -87,11 +87,11 @@ export const menuConfig = [
         icon: "",
         key: "/smallprogram",
       },
-      {
-        label: "强开列表",
-        icon: "",
-        key: "/forceopening",
-      },
+      // {
+      //   label: "强开列表",
+      //   icon: "",
+      //   key: "/forceopening",
+      // },
     ],
   },
 ];

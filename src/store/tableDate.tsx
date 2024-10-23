@@ -68,10 +68,10 @@ export const menus_List = [
     label: "WX-小程序项目",
     key: "/smallprogram",
   },
-  {
-    label: "强开列表",
-    key: "/forceopening",
-  },
+  // {
+  //   label: "强开列表",
+  //   key: "/forceopening",
+  // },
   // {
   //   key: "/setpassword",
   //   label: "账号绑定",
