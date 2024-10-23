@@ -135,7 +135,12 @@ export const loginBg = () => {
 };
 
 //解密算法
-export const decryptData = (encryptedData: any[]) => {
+export const decryptData = (encryptedData: any) => {
+  if (typeof encryptedData === "string" && encryptedData.trim() === "") {
+    // 数据为空
+    return [];
+  }
+
   // 密钥和 IV，需要与后端保持一致
   const key = CryptoJS.enc.Utf8.parse("glt6h61ta7kisow7");
   const iv = CryptoJS.enc.Utf8.parse("4hrivgw5s342f9b2");
