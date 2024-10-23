@@ -22,7 +22,6 @@ export default function PcProject({ props }: any) {
 
   const getData = (name = searchValue, props: any) => {
     setLoading(true);
-
     ProjectList({
       page: page,
       page_size: 100,
@@ -39,7 +38,7 @@ export default function PcProject({ props }: any) {
 
         const decryptedData = decryptData(res?.data);
 
-        if (!Array.isArray(decryptedData)) {
+        if (!Array.isArray([])) {
           message.error("数据格式错误");
           return;
         }

@@ -74,6 +74,8 @@ export default function request<R>(
   return fetch(`${base}${url}`, config).then(async (res) => {
     // 在这里将响应体转换为 JSON 格式
     const responseData = await res.json();
+    console.log(res, "res-------");
+
     if (res.status >= 200 && res.status < 400) {
       // 返回已经解析的 JSON 数据
       if (responseData.code === 40001) {
