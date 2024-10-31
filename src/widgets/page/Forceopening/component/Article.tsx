@@ -1,8 +1,22 @@
-import { useEffect, useRef, useState } from "react";
-import { getQkperjct, openlist, lasttime, detailsMost } from "@/api/useApi";
+import { useEffect, useRef, useState, useMemo } from "react";
+import {
+  getQkperjct,
+  openlist,
+  lasttime,
+  detailsMost,
+  addstrong,
+} from "@/api/useApi";
 import { qkList } from "@/store/tableDate";
 import Modaltow from "@/component/Modaltow";
-import { Button, Select, Radio, Input, message, Tooltip } from "antd";
+import {
+  Button,
+  Select,
+  Radio,
+  Input,
+  message,
+  Tooltip,
+  Popconfirm,
+} from "antd";
 import TableView from "@/component/TableView";
 import { useWindowWidth } from "@/store/utile";
 export default function Forceopening() {
@@ -17,6 +31,7 @@ export default function Forceopening() {
   const [examinexq, setexaminexq] = useState<any>([]);
   const [type, settype] = useState(1); //类型
   const [text, settext] = useState(""); //62/A16\
+  const [qkname, setqkname] = useState(""); //强开名
   const Domwith = useWindowWidth();
   useEffect(() => {
     getQkperjct({}).then((res: any) => {
@@ -26,11 +41,36 @@ export default function Forceopening() {
         const output = res.data.map((item: any) => ({
           value: item.id,
           label: item.name,
+          img:item.img
         }));
         setsletleTbale(output);
       }
     });
   }, []);
+  const newArr = useMemo(() => {
+    // console.log(afterchoice, sletleTbale, "xxxxx");
+    const dtaS = sletleTbale.filter((item) =>
+      afterchoice.includes(item?.value)
+    );
+    console.log(dtaS);
+    return dtaS;
+  }, [afterchoice, sletleTbale]);
+  const confirm = () => {
+    //新增强开
+    console.log("确定");
+    if (qkname == "") {
+      message.warning("请输入内容");
+    } else {
+      addstrong({ name: qkname }).then((res: any) => {
+        if (res.code === 0) {
+          // console.log(res, "wwwww");
+          setqkname("");
+          TalbeRef?.current?.queryList();
+          message.success("操作成功");
+        }
+      });
+    }
+  };
   const affirm = () => {
     //确定按钮点击函数
     if (afterchoice.length == 0 || text == "") {
@@ -86,6 +126,32 @@ export default function Forceopening() {
       >
         上传强开
       </Button>
+      <Popconfirm
+        title="申请新项目强开"
+        description={
+          <div className=" my-3 w-[360px] ">
+            <Input
+              value={qkname}
+              onChange={(val) => setqkname(val.target.value)}
+              placeholder="京东,快手,小红书.."
+            />
+          </div>
+        }
+        onConfirm={confirm}
+        okText="确定"
+        cancelText="取消"
+      >
+        <Button
+          className=" ml-3 "
+          type="primary"
+          onClick={() => {
+            console.log("addd");
+          }}
+        >
+          申请新项目强开
+        </Button>
+      </Popconfirm>
+
       <TableView
         xScroll={460}
         ref={TalbeRef}
@@ -270,9 +336,17 @@ export default function Forceopening() {
             <TextArea
               value={text}
               onChange={(val) => settext(val.target.value)}
-              rows={8}
+              rows={5}
               placeholder="账号----密码"
             />
+          </li>
+          <li className="my-3 grid grid-cols-4">
+            {newArr?.map((item: any, index) => (
+              <div className=" mt-4 flex flex-col items-center" key={index}>
+                <img className="  rounded-lg w-[60px] h-[60px] " src={item.img} alt="" />
+                <p className=" mt-1 text-[12px] ">{item.label}</p>
+              </div>
+            ))}
           </li>
         </ul>
       </Modaltow>

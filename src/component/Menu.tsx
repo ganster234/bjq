@@ -53,6 +53,11 @@ export const menuConfig = [
     icon: "icon1",
   },
   {
+    label: "强开列表",
+    key: "/forceopening",
+    icon: "icon2",
+  },
+  {
     label: "Q项目",
     icon: "setpasswd",
     children: [
@@ -86,11 +91,6 @@ export const menuConfig = [
         label: "小程序项目",
         icon: "",
         key: "/smallprogram",
-      },
-      {
-        label: "强开列表",
-        icon: "",
-        key: "/forceopening",
       },
     ],
   },

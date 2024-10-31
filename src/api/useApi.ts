@@ -5,6 +5,11 @@ interface UserInfotype {
   account?: string;
 }
 
+export const homePage = (data: any) => {
+  //首页数据
+  return request("GET", `/project/get/home?is_sort=${data.is_sort}&page=5`);
+};
+
 export const detailsMost = (data: any) => {
   //金额列表
   return request("GET", `/open/get/open/info?order_id=${data.order_id}`);
@@ -20,6 +25,10 @@ export const openlist = (data: any) => {
 export const getQkperjct = (data: any) => {
   //获取强开项目下拉选择
   return request("GET", "/open/get/price", data);
+};
+export const addstrong = (data: any) => {
+  //新增强开
+  return request("POST", "/open/add/strong", data);
 };
 export const lasttime = (data: any) => {
   //上传强开

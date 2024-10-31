@@ -3,7 +3,6 @@
 }
 .homePage .swiperContainer {
   border-radius: 15px;
-  overflow: hidden;
 }
 .homePage .swiperContainer .swiper-img {
   height: 240px;
@@ -13,6 +12,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  padding: 0 20px;
 }
 .homePage .content .contentItem {
   width: 49%;
@@ -35,7 +35,6 @@
   margin-bottom: 25px;
   display: flex;
   align-items: flex-start;
-  overflow: hidden;
 }
 .homePage .content .contentItem .contentItemList .ListItem .listImg {
   width: 60px;
@@ -67,9 +66,9 @@
   white-space: nowrap;
 }
 .homePage .content .contentItem .contentItemList .ListItem .listInfo .listInfoTitle .infoaddress {
+  white-space: normal;
   font-size: 12px;
   color: #AEB3B9;
-  white-space: nowrap;
 }
 .homePage .content .contentItem .contentItemList .ListItem .listInfo .listText {
   display: flex;
@@ -107,4 +106,18 @@
 }
 .homePage .content .contentItem .contentItemList2 .ListItem:last-child {
   border-color: transparent;
+}
+@media (max-width: 1000px) {
+  .contentItemList1 .ListItem {
+    padding-left: 8px !important;
+  }
+}
+@media (max-width: 850px) {
+  .content {
+    margin-top: 0px !important;
+    padding: 0 5px !important;
+  }
+  .contentItem {
+    width: 100% !important;
+  }
 }
