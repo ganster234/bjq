@@ -190,8 +190,12 @@ const TableView = forwardRef<TableViewHandle, TableViewProps<any>>(
       //发送请求赋值
       const { code, data, msg } = result || {};
       // const { all, list, } = data || {};
-      const { detail: dataDetail, img: dataImg, name: dataName } = data ?? {};
-      const dataList = (dataDetail ?? []).map((item: any, index) => {
+      const {
+        detail: dataDetail,
+        img: dataImg,
+        name: dataName,
+      } = data.data ?? {};
+      const dataList = (dataDetail ?? []).map((item: any, index: number) => {
         return {
           ...item,
           id: index + 1,
@@ -206,9 +210,9 @@ const TableView = forwardRef<TableViewHandle, TableViewProps<any>>(
       if (optionsPagintion) {
         setState((item: any) => ({
           ...item,
-          // total: all || 0,
+          total: data.count || 0,
           // data.applet_app_id ? dataList : [...data]
-          dataList: [...data],
+          dataList: [...data.data],
         }));
       } else {
         // setState((item: any) => ({ ...item, dataList: [...list] }));

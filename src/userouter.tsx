@@ -13,6 +13,7 @@ const QAPPpage = lazy(() => import("./widgets/page/Qproject/APPpage.tsx"));
 const WWebpage = lazy(() => import("./widgets/page/Wproject/Webpage.tsx"));
 const WAPPpage = lazy(() => import("./widgets/page/Wproject/APPpage.tsx"));
 const Forceopening = lazy(() => import("./widgets/page/Forceopening"));
+const Accountlist = lazy(() => import("./widgets/page/Accountlist"));
 const Smallprogram = lazy(
   () => import("./widgets/page/Wproject/Smallprogram.tsx")
 );
@@ -39,6 +40,15 @@ const routeConfig = [
       </Suspense>
     ),
   },
+  {
+    path: "/accountlist",
+    element: (
+      <Suspense fallback={<div>⌛加载中...</div>}>
+        <Accountlist />
+      </Suspense>
+    ),
+  },
+
   {
     path: "/forceopening",
     element: (

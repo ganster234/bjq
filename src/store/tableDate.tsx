@@ -72,6 +72,10 @@ export const menus_List = [
     label: "强开列表",
     key: "/forceopening",
   },
+  {
+    label: "账号列表",
+    key: "/accountlist",
+  },
   // {
   //   key: "/setpassword",
   //   label: "账号绑定",

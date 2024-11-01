@@ -58,6 +58,11 @@ export const menuConfig = [
     icon: "icon2",
   },
   {
+    label: "账号列表",
+    key: "/accountlist",
+    icon: "icon4",
+  },
+  {
     label: "Q项目",
     icon: "setpasswd",
     children: [

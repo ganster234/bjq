@@ -112,6 +112,7 @@ export default function LoginRegistration() {
             changeToken(res.data.userinfo.token);
             message.success("登录成功");
             navigate("/forceopening");
+            location.reload()
             if (takestore.disclosedBallot) {
               //记住密码
               takestore.setcurtain(data.username);

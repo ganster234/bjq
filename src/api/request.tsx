@@ -8,8 +8,8 @@
 export const base = import.meta.env.PROD
   ? // ? "http://47.96.77.255:9460/v1" //测试环境
     "https://api.bijia109.com/v1" //生产环境
-  :  "http://192.168.1.59:9016/v1" //开发环境
-    // "https://api.bijia109.com/v1";
+  : "http://192.168.1.59:9016/v1"; //开发环境
+// "https://api.bijia109.com/v1";
 
 /**
  * 请求函数
@@ -79,12 +79,9 @@ export default function request<R>(
 
     if (res.status >= 200 && res.status < 400) {
       // 返回已经解析的 JSON 数据
-      if (responseData.code === 40001) {
-        message.warning("登录过期，请重新登录");
-        setTimeout(() => {
-          localStorage.removeItem("token");
-          location.reload();
-        }, 1500);
+      if (responseData.code === 40003) {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
       }
       // 如果不等于200，说明请求后端判断，弹出后端返回错误信息
       if (responseData.code !== 0) {

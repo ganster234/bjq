@@ -41,7 +41,7 @@ export default function Forceopening() {
         const output = res.data.map((item: any) => ({
           value: item.id,
           label: item.name,
-          img:item.img
+          img: item.img,
         }));
         setsletleTbale(output);
       }
@@ -343,7 +343,11 @@ export default function Forceopening() {
           <li className="my-3 grid grid-cols-4">
             {newArr?.map((item: any, index) => (
               <div className=" mt-4 flex flex-col items-center" key={index}>
-                <img className="  rounded-lg w-[60px] h-[60px] " src={item.img} alt="" />
+                <img
+                  className="  rounded-lg w-[60px] h-[60px] "
+                  src={item.img}
+                  alt=""
+                />
                 <p className=" mt-1 text-[12px] ">{item.label}</p>
               </div>
             ))}

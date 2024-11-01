@@ -5,6 +5,16 @@ interface UserInfotype {
   account?: string;
 }
 
+export const amustList = (data: any) => {
+  //账号列表
+  return request(
+    "GET",
+    `/open/get/account?name=${data.name ? data.name : ""}&page=${
+      data.page
+    }&page_size=${data.pageSize}`
+  );
+};
+
 export const homePage = (data: any) => {
   //首页数据
   return request("GET", `/project/get/home?is_sort=${data.is_sort}&page=5`);

@@ -170,3 +170,24 @@ export const decryptData = (encryptedData: any) => {
 
   return result;
 };
+
+export function exportToTxt(data: any, filename = "export.txt") {
+  // 格式化内容：移除 username，用 '----' 分割字段，每个对象换行
+  const content = data
+    .map(
+      (item: any) => `${item.app_name}----${item.account}----${item.username}`
+    )
+    .join("\n");
+
+  // 创建一个 Blob 对象，指定文件内容和 MIME 类型
+  const blob = new Blob([content], { type: "text/plain" });
+
+  // 创建一个链接元素用于触发下载
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+
+  // 自动触发下载并移除链接
+  link.click();
+  URL.revokeObjectURL(link.href); // 释放内存
+}
