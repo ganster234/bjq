@@ -53,16 +53,6 @@ export const menuConfig = [
     icon: "icon1",
   },
   {
-    label: "强开列表",
-    key: "/forceopening",
-    icon: "icon2",
-  },
-  {
-    label: "账号列表",
-    key: "/accountlist",
-    icon: "icon4",
-  },
-  {
     label: "Q项目",
     icon: "setpasswd",
     children: [
@@ -97,7 +87,23 @@ export const menuConfig = [
         icon: "",
         key: "/smallprogram",
       },
+      {
+        label: "试玩项目",
+        icon: "",
+        key: "/demo",
+      },
     ],
+  },
+
+  {
+    label: "强开列表",
+    key: "/forceopening",
+    icon: "icon2",
+  },
+  {
+    label: "账号列表",
+    key: "/accountlist",
+    icon: "icon4",
   },
 ];
 const PackingMu = (props: { coll: boolean }) => {

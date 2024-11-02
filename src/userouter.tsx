@@ -6,7 +6,9 @@ import { lazy, Suspense } from "react";
 const Login = lazy(() => import("./widgets/LoginEnrollthree.tsx"));
 const Personage = lazy(() => import("./widgets/page/Personage"));
 const PcProject = lazy(() => import("./widgets/page/pcProject/index"));
-const PcProjectDetails = lazy(() => import("./widgets/page/pcProject/details.tsx"));
+const PcProjectDetails = lazy(
+  () => import("./widgets/page/pcProject/details.tsx")
+);
 const QWebpage = lazy(() => import("./widgets/page/Qproject/Webpage.tsx"));
 const QAPPpage = lazy(() => import("./widgets/page/Qproject/APPpage.tsx"));
 
@@ -17,6 +19,7 @@ const Accountlist = lazy(() => import("./widgets/page/Accountlist"));
 const Smallprogram = lazy(
   () => import("./widgets/page/Wproject/Smallprogram.tsx")
 );
+const Demo = lazy(() => import("./widgets/page/Wproject/Demo.tsx"));
 const NotFound = lazy(() => import("./widgets/page/NotFound.tsx")); // 404 页面
 
 // 获取用户信息
@@ -33,10 +36,18 @@ const routeConfig = [
     ),
   },
   {
-    path: "/login",
+    path: "/demo",
     element: (
       <Suspense fallback={<div>⌛加载中...</div>}>
-        <Login />
+        <Demo />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/accountlist",
+    element: (
+      <Suspense fallback={<div>⌛加载中...</div>}>
+        <Accountlist />
       </Suspense>
     ),
   },

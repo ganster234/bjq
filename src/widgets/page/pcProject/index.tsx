@@ -50,6 +50,7 @@ export default function PcProject({ props }: any) {
 
         // 更新列表数据
         setListData((prevData: any) => [...prevData, ...decryptedData]);
+        console.log(listData, "decryptedDatadecryptedData");
       })
       .catch((error: any) => {
         setLoading(false);

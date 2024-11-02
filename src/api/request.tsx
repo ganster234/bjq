@@ -1,4 +1,4 @@
-/*
+/*afds
  * @Author: yy
  * @Date: 2024-09-18 09:04:36
  * @LastEditTime: 2024-09-25 14:33:35
@@ -19,7 +19,7 @@ export const base = import.meta.env.PROD
  * @param {("GET" | "POST" | "PUT" | "PATCH" | "DELETE")} method
  * @param {string} url
  * @param {*} [data]
- * @param {("json" | "form")} [dataType="json"] 请求体的数据类型 POST PUT PATCH
+ * @param {("json" | "form")} [dataType="json"] 请求体的数据类型 POST PUT PATCH fasdf
  * @param {("json" | "text" | "blob")} [returnType="json"] 返回值的数据类型
  * @return {*}
  */

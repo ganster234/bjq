@@ -27,6 +27,7 @@ interface typefrom {
     hideCloseButton: boolean; //是否隐藏关闭按钮
     Header: string;
     footrBut: string;
+    Bodyclass?: string;
   };
   affirm?: () => void;
   children: React.ReactNode;
@@ -68,7 +69,11 @@ const Modaltow = forwardRef((props: typefrom, ref) => {
           ) : (
             <></>
           )}
-          <ModalBody>
+          <ModalBody
+            className={
+              props.configuration.Bodyclass ? props.configuration.Bodyclass : ""
+            }
+          >
             {/* 传送父组件来的内容*/}
             {props.children}
           </ModalBody>

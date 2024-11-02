@@ -73,7 +73,7 @@ export const ProjectList = (data: any) => {
       data.is_qq
     }&is_app=${data.is_app}&is_web=${data.is_web}&is_mini=${
       data.is_mini || 0
-    }&name=${data?.name}`
+    }&is_shi=${data.is_shi || ""}&name=${data?.name}`
   );
 };
 

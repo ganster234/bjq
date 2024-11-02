@@ -69,6 +69,10 @@ export const menus_List = [
     key: "/smallprogram",
   },
   {
+    label: "试玩项目",
+    key: "/demo",
+  },
+  {
     label: "强开列表",
     key: "/forceopening",
   },
